@@ -13,15 +13,13 @@ protected:
 	void shrink(); // 空间过大时压缩
 	void expand(); // 空间不足时扩容
 public:
-	Vector(int capacity = DEFAULT_CAPACITY, int size = 0, T val = 0) { //构造函数，初始化vector的容量，初始值
-		elem = new T[_capacity = capacity];
-		for(_size = 0; _size < size; _elem[_size++] = val);
-	}
+	Vector(int capacity = DEFAULT_CAPACITY, int size = 0, T val = 0);
 
-	Vector(T const*A, int n) { copyFrom(A, 0, n); } // 复制数组整体
-	Vector(T const*A, int lo, int hi) { copyFrom(A, lo, hi); } // 复制数组区间
-	Vector(Vector<T> const& V) { copyFrom(V._elem, 0, V._size); } // 复制vector整体
-	Vector(Vector<T> const& V, int lo, int hi) { copyFrom(V._elem, lo, hi); } // 复制vector区间
+	// 下列的构造函数可以使用copyFrom的逻辑来实现
+	Vector(T const* A, int n); // 复制数组整体
+	Vector(T const* A, int lo, int hi);  // 复制数组区间
+	Vector(Vector<T> const& V);// 复制vector整体
+	Vector(Vector<T> const& V, int lo, int hi);// 复制vector区间
 
 	~Vector() { delete [] _elem; } // 析构函数
 
@@ -30,9 +28,9 @@ public:
 	int disordered()const; //判断向量是否有序
 
 	//上面是基本方法， 下面是需求操作， 基本的操作是增删查改
-	int find(T const& e) const { return find(e, 0, _size); } //无序向量整体查找
+	int find(T const& e) const;//无序向量整体查找, 可以通过区间find实现
 	int find(T const& e, int lo, int hi) const; //无序向量区间查找
-	int search(T const& e) const { return (0 >= _size) ? -1 : search(e, 0, _size); } //有序向量整体查找
+	int search(T const& e) const; //有序向量整体查找, 可以通过区间search实现
 	int search(T const& e, int lo, int hi) const; //有序向量区间查找
 
 	// 可写访问接口
