@@ -31,13 +31,6 @@ protected:
 	void copyFrom(T const* A, int lo, int hi); // 复制数组区间A[lo, hi): 包头不包尾
 	void shrink(); // 空间过大时压缩
 	void expand(); // 空间不足时扩容
-
-	void selectSort(int lo, int hi); // 选择排序
-	void insertSort(int lo, int hi); // 插入排序
-	void bubbleSort(int lo, int hi); // 冒泡排序
-	void mergeSort(int lo, int hi); // 归并排序
-	void quickSort(int lo, int hi); // 快速排序
-
 public:
 	Vector(int capacity = DEFAULT_CAPACITY, int size = 0, T val = 0);
 
