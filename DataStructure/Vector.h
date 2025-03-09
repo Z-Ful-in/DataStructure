@@ -117,7 +117,7 @@ void Vector<T>::expand()
 	int _capacity = max(_capacity, DEFAULT_CAPACITY);
 	T* newelem = _elem;
 	int newCapacity = _capacity * 2;//将旧容量扩大两倍
-	_elem = new T[newcapacity];
+	_elem = new T[newCapacity];
 	for (int i = 0;i < _size;i++)
 	{
 		_elem[i] = newelem[i];
