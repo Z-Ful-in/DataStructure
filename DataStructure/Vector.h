@@ -1,15 +1,15 @@
-#pragma once
+ï»¿#pragma once
 #include<iostream>
-#define DEFAULT_CAPACITY 10 // Ä¬ÈÏµÄvectorµÄ³õÊ¼´óĞ¡
+#define DEFAULT_CAPACITY 10 // é»˜è®¤çš„vectorçš„åˆå§‹å¤§å°
 using namespace std;
 template <typename T>
 class Vector{
 protected:
-	int _size; // vectorÖĞÒÑ×°ÌîµÄÔªËØ¸öÊı
-	T* _elem; // Ö¸ÏòÔªËØÊı×éµÄÖ¸Õë
-	int _capacity; // vectorµÄÈİÁ¿
+	int _size; // vectorä¸­å·²è£…å¡«çš„å…ƒç´ ä¸ªæ•°
+	T* _elem; // æŒ‡å‘å…ƒç´ æ•°ç»„çš„æŒ‡é’ˆ
+	int _capacity; // vectorçš„å®¹é‡
 
-	int getMax(int lo,int hi)//ÕÒ×îÖµº¯Êı
+	int getMax(int lo,int hi)//æ‰¾æœ€å€¼å‡½æ•°
 	{
 		int max = lo;
 		for (int i = lo+1;i <hi;i++)
@@ -28,49 +28,56 @@ protected:
 		b = temp;
 	}
 	
-	void copyFrom(T const* A, int lo, int hi); // ¸´ÖÆÊı×éÇø¼äA[lo, hi): °üÍ·²»°üÎ²
-	void shrink(); // ¿Õ¼ä¹ı´óÊ±Ñ¹Ëõ
-	void expand(); // ¿Õ¼ä²»×ãÊ±À©Èİ
+	void copyFrom(T const* A, int lo, int hi); // å¤åˆ¶æ•°ç»„åŒºé—´A[lo, hi): åŒ…å¤´ä¸åŒ…å°¾
+	void shrink(); // ç©ºé—´è¿‡å¤§æ—¶å‹ç¼©
+	void expand(); // ç©ºé—´ä¸è¶³æ—¶æ‰©å®¹
+
+	void selectSort(int lo, int hi); // é€‰æ‹©æ’åº
+	void insertSort(int lo, int hi); // æ’å…¥æ’åº
+	void bubbleSort(int lo, int hi); // å†’æ³¡æ’åº
+	void mergeSort(int lo, int hi); // å½’å¹¶æ’åº
+	void quickSort(int lo, int hi); // å¿«é€Ÿæ’åº
+
 public:
 	Vector(int capacity = DEFAULT_CAPACITY, int size = 0, T val = 0);
 
-	// ÏÂÁĞµÄ¹¹Ôìº¯Êı¿ÉÒÔÊ¹ÓÃcopyFromµÄÂß¼­À´ÊµÏÖ
-	Vector(T const* A, int n); // ¸´ÖÆÊı×éÕûÌå
-	Vector(T const* A, int lo, int hi);  // ¸´ÖÆÊı×éÇø¼ä
-	Vector(Vector<T> const& V);// ¸´ÖÆvectorÕûÌå
-	Vector(Vector<T> const& V, int lo, int hi);// ¸´ÖÆvectorÇø¼ä
+	// ä¸‹åˆ—çš„æ„é€ å‡½æ•°å¯ä»¥ä½¿ç”¨copyFromçš„é€»è¾‘æ¥å®ç°
+	Vector(T const* A, int n); // å¤åˆ¶æ•°ç»„æ•´ä½“
+	Vector(T const* A, int lo, int hi);  // å¤åˆ¶æ•°ç»„åŒºé—´
+	Vector(Vector<T> const& V);// å¤åˆ¶vectoræ•´ä½“
+	Vector(Vector<T> const& V, int lo, int hi);// å¤åˆ¶vectoråŒºé—´
 
-	~Vector() { delete [] _elem; } // Îö¹¹º¯Êı
+	~Vector() { delete [] _elem; } // ææ„å‡½æ•°
 
 	int size() const { return _size; }
-	bool empty()const; //ÅĞ¿Õº¯Êı
-	int disordered()const; //ÅĞ¶ÏÏòÁ¿ÊÇ·ñÓĞĞò
+	bool empty()const; //åˆ¤ç©ºå‡½æ•°
+	int disordered()const; //åˆ¤æ–­å‘é‡æ˜¯å¦æœ‰åº
 
-	//ÉÏÃæÊÇ»ù±¾·½·¨£¬ ÏÂÃæÊÇĞèÇó²Ù×÷£¬ »ù±¾µÄ²Ù×÷ÊÇÔöÉ¾²é¸Ä
-	int find(T const& e) const;//ÎŞĞòÏòÁ¿ÕûÌå²éÕÒ, ¿ÉÒÔÍ¨¹ıÇø¼äfindÊµÏÖ
-	int find(T const& e, int lo, int hi) const; //ÎŞĞòÏòÁ¿Çø¼ä²éÕÒ
-	int search(T const& e) const; //ÓĞĞòÏòÁ¿ÕûÌå²éÕÒ, ¿ÉÒÔÍ¨¹ıÇø¼äsearchÊµÏÖ
-	int search(T const& e, int lo, int hi) const; //ÓĞĞòÏòÁ¿Çø¼ä²éÕÒ
+	//ä¸Šé¢æ˜¯åŸºæœ¬æ–¹æ³•ï¼Œ ä¸‹é¢æ˜¯éœ€æ±‚æ“ä½œï¼Œ åŸºæœ¬çš„æ“ä½œæ˜¯å¢åˆ æŸ¥æ”¹
+	int find(T const& e) const;//æ— åºå‘é‡æ•´ä½“æŸ¥æ‰¾, å¯ä»¥é€šè¿‡åŒºé—´findå®ç°
+	int find(T const& e, int lo, int hi) const; //æ— åºå‘é‡åŒºé—´æŸ¥æ‰¾
+	int search(T const& e) const; //æœ‰åºå‘é‡æ•´ä½“æŸ¥æ‰¾, å¯ä»¥é€šè¿‡åŒºé—´searchå®ç°
+	int search(T const& e, int lo, int hi) const; //æœ‰åºå‘é‡åŒºé—´æŸ¥æ‰¾
 
-	// ¿ÉĞ´·ÃÎÊ½Ó¿Ú
-	T& operator[](int r) const; //ÖØÔØÏÂ±ê²Ù×÷·û
-	Vector<T>& operator=(Vector<T> const&); //ÖØÔØ¸³Öµ²Ù×÷·û
-	T remove(int r); //É¾³ıÖÈÎªrµÄÔªËØ
-	int remove(int lo, int hi); //É¾³ıÖÈÔÚÇø¼ä[lo, hi)Ö®ÄÚµÄÔªËØ
-	int insert(int r, T const& e); //²åÈëÔªËØ
-	int insert(T const& e) { return insert(_size, e); } //Ä¬ÈÏ²åÈëµ½Ä©Î²
-	void sort(int lo, int hi); //¶Ô[lo, hi)ÅÅĞò
-	void sort() { sort(0, _size); } //ÕûÌåÅÅĞò
-	void unsort(int lo, int hi); //¶Ô[lo, hi)ÖÃÂÒ
-	void unsort() { unsort(0, _size); } //ÕûÌåÖÃÂÒ
-	int deduplicate(); //ÎŞĞòÈ¥ÖØ
-	int uniquify(); //ÓĞĞòÈ¥ÖØ
+	// å¯å†™è®¿é—®æ¥å£
+	T& operator[](int r) const; //é‡è½½ä¸‹æ ‡æ“ä½œç¬¦
+	Vector<T>& operator=(Vector<T> const&A); //é‡è½½èµ‹å€¼æ“ä½œç¬¦
+	T remove(int r); //åˆ é™¤ç§©ä¸ºrçš„å…ƒç´ 
+	int remove(int lo, int hi); //åˆ é™¤ç§©åœ¨åŒºé—´[lo, hi)ä¹‹å†…çš„å…ƒç´ 
+	int insert(int r, T const& e); //æ’å…¥å…ƒç´ 
+	int insert(T const& e) { return insert(_size, e); } //é»˜è®¤æ’å…¥åˆ°æœ«å°¾
+	void sort(int lo, int hi); //å¯¹[lo, hi)æ’åº
+	void sort() { sort(0, _size); } //æ•´ä½“æ’åº
+	void unsort(int lo, int hi); //å¯¹[lo, hi)ç½®ä¹±
+	void unsort() { unsort(0, _size); } //æ•´ä½“ç½®ä¹±
+	int deduplicate(); //æ— åºå»é‡
+	int uniquify(); //æœ‰åºå»é‡
 
-	// ±éÀú
-	void traverse(void(*)(T&)); //Í¨¹ıº¯ÊıÖ¸Õë±éÀú
-	template <typename VST> void traverse(VST&); //Í¨¹ıÄ£°å±éÀú
+	// éå†
+	void traverse(void(*)(T&)); //é€šè¿‡å‡½æ•°æŒ‡é’ˆéå†
+	template <typename VST> void traverse(VST&); //é€šè¿‡æ¨¡æ¿éå†
 
-	void print()const
+	void print()const//å¸¸é‡å‡½æ•°å¯ä»¥ä¸æ”¹å˜ç±»å†…çš„å€¼
 	{
 		for (int i = 0;i < _size;i++)
 		{
@@ -85,15 +92,42 @@ public:
 template<typename T>
 void Vector<T>::copyFrom(T const* A, int lo, int hi)
 {
-	_elem = new T[_capacity = 2 * (hi - lo)];
-	_size = 0;
-	while (lo < hi) {
-		_elem[_size++] = A[lo++];
+	 for (int i=lo;i<hi-lo;i++)
+	 {
+		 _elem[i] = A[i];
+	 }
+}
+template<typename T>
+void Vector<T>::shrink()
+{
+	int _capacity = max(_capacity, DEFAULT_CAPACITY);
+	T* newelem = _elem;
+	int newCapacity = _size;
+	_elem = new T[newCapacity];
+	for (int i = 0;i < _size;i++)
+	{
+		_elem[i] = newelem[i];
 	}
+	delete[] newelem;
+}
+template<typename T>
+void Vector<T>::expand()
+{
+	if (_size <_capacity)return;
+	int _capacity = max(_capacity, DEFAULT_CAPACITY);
+	T* newelem = _elem;
+	int newCapacity = _capacity * 2;//å°†æ—§å®¹é‡æ‰©å¤§ä¸¤å€
+	_elem = new T[newcapacity];
+	for (int i = 0;i < _size;i++)
+	{
+		_elem[i] = newelem[i];
+	}
+	delete[] newelem;
 }
 
+
 template<typename T>
-inline void Vector<T>::selectSort(int lo, int hi)
+void Vector<T>::selectSort(int lo, int hi)
 {
 	for (int k = hi-1;k>lo;k--)
 	{
@@ -115,7 +149,7 @@ void Vector<T>::insertSort(int lo, int hi)
 	}
 }
 template<typename T>
-inline void Vector<T>::bubbleSort(int lo, int hi)
+void Vector<T>::bubbleSort(int lo, int hi)
 {
 	for (int j = lo;j < hi;j++)
 	{
@@ -129,7 +163,7 @@ inline void Vector<T>::bubbleSort(int lo, int hi)
 	}
 }
 template<typename T>
-inline void Vector<T>::mergeSort(int lo, int hi)
+void Vector<T>::mergeSort(int lo, int hi)
 {
 	if (hi - lo < 2) return;
 	int middle = (lo + hi) / 2;
@@ -137,7 +171,7 @@ inline void Vector<T>::mergeSort(int lo, int hi)
 	mergeSort(middle, hi);
 
 	//merge
-    // ±¸·İ×óÓÒ°ëÇø
+    // å¤‡ä»½å·¦å³åŠåŒº
 	int leftLen = middle - lo;
 	int rightLen = hi - middle;
 	T* temp1 = new T[leftLen];
@@ -145,7 +179,7 @@ inline void Vector<T>::mergeSort(int lo, int hi)
 	for (int i = 0; i < leftLen; i++) temp1[i] = _elem[lo + i];
 	for (int j = 0; j < rightLen; j++) temp2[j] = _elem[middle + j];
 
-	// ºÏ²¢Âß¼­
+	// åˆå¹¶é€»è¾‘
 	int p = 0, q = 0, idx = lo;
 	while (p < leftLen && q < rightLen) 
 	{
@@ -158,10 +192,10 @@ inline void Vector<T>::mergeSort(int lo, int hi)
 	delete[] temp2;
 }
 template<typename T>
-inline void Vector<T>::quickSort(int lo, int hi)
+void Vector<T>::quickSort(int lo, int hi)
 {
 	if (hi - lo < 2)return;
-	//Ñ¡Ôñ»ù×¼
+	//é€‰æ‹©åŸºå‡†
 	int sta = _elem[lo];
 	T *temp = new T[hi - lo];
 	int begin = 0, end = hi - lo;
@@ -187,8 +221,31 @@ inline void Vector<T>::quickSort(int lo, int hi)
 	
 	delete[] temp;
 }
+template<typename T>
+Vector<T>::Vector(int capacity, int size, T val)
+{
+	this->_capacity = capacity;
+	this->_size = size;
+	for (int k = 0;k < _size;k++)
+	{
+		_elem[k] = val;
+	}
+}
 // 58,56,23,7,1,5,9,3,87,60
 // 
+
+template<typename T>
+int Vector<T>::insert(int r, T const& e)
+{
+	expand();
+	for (int i = _size;i > r;i--)
+	{
+		_elem[i] = _elem[i - 1];
+	}
+	_elem[r] = e;
+	_size++;//æ›´æ–°å‘é‡è§„æ¨¡
+	return r;//è¿”å›ç§©
+}
 
 template<typename T>
 void Vector<T>::sort(int lo,int hi)
@@ -197,7 +254,186 @@ void Vector<T>::sort(int lo,int hi)
 }
 
 template<typename T>
-inline Vector<T>::Vector(T const* A, int n)
+void Vector<T>::unsort(int lo, int hi)
+{
+	T* temp = new T[_capacity];
+}
+
+template<typename T>
+int Vector<T>::deduplicate()//æ— åºå»é‡
+{
+	int oldsize = _size;
+	int i = 1;
+	while (i < _size)
+	{
+		find(_elem[i], 0, i) ?i++ : remove(i);
+	}
+	return oldsize-_size;//è¿”å›çš„æ˜¯åˆ é™¤å…ƒç´ æ€»æ•°
+}
+
+template<typename T>
+inline int Vector<T>::uniquify()
+{
+	int oldsize = _size;
+	int i = 1;
+	while (i < _size)
+	{
+		find(_elem[i], 0, i) ? i++ : remove(i);
+	}
+	return oldsize-_size;
+}
+
+template<typename T>
+void Vector<T>::traverse(void(*)(T&))
+{
+	for (int i = 0;i < _size;i++)
+		visit(_elem[i]);
+}
+
+template<typename T>
+Vector<T>::Vector(T const* A, int n)
 {
 	copyFrom(A, 0, n);
+}
+
+template<typename T>
+Vector<T>::Vector(T const* A, int lo, int hi)
+{
+	copyFrom(A, lo, hi);
+}
+
+template<typename T>
+Vector<T>::Vector(Vector<T> const& V)
+{
+	copyFrom(V, 0, _size);
+}
+
+template<typename T>
+Vector<T>::Vector(Vector<T> const& V, int lo, int hi)
+{
+	copyFrom(V, lo, hi);
+}
+
+template<typename T>
+bool Vector<T>::empty() const
+{
+	if (_size = 0)
+	return false;
+}
+
+template<typename T>
+int Vector<T>::disordered() const
+{
+	int count = 0;//è®°å½•æ— åºæ•°ç»„å¯¹æ•°
+		for (int i = 1;i < _size;i++)
+		{
+			if (_elem[i - 1] > _elem[i])
+				count++;
+	}
+		return count;//è¿”å›å€¼ä¸ºæ— åºæ•°ç»„å¯¹æ•°
+}
+
+template<typename T>
+int Vector<T>::find(T const& e) const
+{
+	int hi = _size;
+	while ((0< hi--) && (e != _elem[hi]));
+	return hi;
+}
+
+template<typename T>
+inline int Vector<T>::find(T const& e, int lo, int hi) const
+{
+	while ((lo < hi--) && (e != _elem[hi]));
+	return hi;
+}
+
+template<typename T>
+int Vector<T>::search(T const& e) const
+{
+	int lo = 0, hi = _size;
+	while (lo < hi)
+	{
+		int middle = _size / 2;
+		if (e > _elem[middle])
+		{
+			lo = middle;
+		}
+		else if (e == middle)
+		{
+			return middle;
+		}
+		else
+		{
+			hi = middle;
+		}
+		return -1;//æŸ¥æ‰¾å¤±è´¥
+	}
+}
+
+template<typename T>
+inline int Vector<T>::search(T const& e, int lo, int hi) const
+{
+	while (lo < hi)
+	{
+		int mi = (hi - lo) / 2;
+		if (e < _elem[mi])
+			hi = mi;
+		else if (_elem[mi] < e)
+			lo = mi;
+		else
+			return mi;
+	}
+	return -1;
+}
+
+template<typename T>
+T& Vector<T>::operator[](int r) const
+{
+	return _elem[r];
+}
+
+template<typename T>
+Vector<T>& Vector<T>::operator=(Vector<T> const&A)
+{
+	if (this != &A) 
+	{
+		T* newElem = new T[A._capacity];        // å…ˆåˆ†é…æ–°å†…å­˜â€Œ
+		for (int i = 0; i < A._size; ++i)
+		{
+			newElem[i] = A._elem[i];            // æ‹·è´æ•°æ®â€Œ
+		}
+		delete[] _elem;                           // å†é‡Šæ”¾æ—§å†…å­˜â€Œ
+		_elem = newElem;
+		_size = A._size;
+		_capacity = A._capacity;                // æ›´æ–°å…ƒæ•°æ®â€Œ
+	}
+	return *this;
+}
+
+template<typename T>
+T Vector<T>::remove(int r)
+{
+	T e = _elem[r];
+	remove(r, r + 1);
+	return e;//è¿”å›è¢«åˆ é™¤å…ƒç´ 
+}
+
+template<typename T>
+inline int Vector<T>::remove(int lo, int hi)
+{
+	if (lo == hi)return 0;
+	while (hi < _size)
+		_elem[lo++] = _elem[hi++];//æŠŠåé¢çš„å…ƒç´ å…¨éƒ¨å‰ç§»hi-loä½
+	_size =_size-hi+lo;//æ›´æ–°æ•°ç»„é•¿åº¦
+	shrink();//ç¼©å°å®¹é‡ï¼Œé¿å…å†…å­˜æµªè´¹
+	return lo - hi;//è¿”å›åˆ é™¤å…ƒç´ æ•°ç›®
+}
+
+template<typename T>
+template<typename VST>
+inline void Vector<T>::traverse(VST&)
+{
+	for (int i = 0;i < _size;i++)
+		visit(_elem[i]);
 }

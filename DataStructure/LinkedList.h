@@ -51,3 +51,102 @@ public:
 
 };
 
+template<typename T>
+LinkedList<T>::LinkedList(int size)
+{
+	init();
+	for (int i = 0;i < size;i++)
+	{
+
+	}
+}
+
+template<typename T>
+inline void LinkedList<T>::init()
+{
+	header = new LinkedList<T>;
+	trailer = new LinkedList<T>;
+	header->next = trailer;
+	header->prev = NULL;
+	trailer->next = NULL;
+	trailer->prev = header;
+	_size = 0;
+}
+
+template<typename T>
+Node<T>* LinkedList<T>::operator[](int r) const
+{
+	Node<T>*p = first();//从首节点出发
+	while (0 < r--)//链表只能一个个顺下来
+		p = p->next;
+	return p;//此时p已经指向r节点中的数据了，应该返回指针中的数据
+}
+
+template<typename T>
+inline Node<T>* LinkedList<T>::find(T const& e) const
+{
+	Node<T>* p = first();//从首节点出发
+	int i = 0;
+	while (i < n)//从首节点顺下来，找到e
+	{
+		p = p->next;
+		if (e == p)
+			return p;
+	}
+	return nullptr;//遍历到链表的最后都没有找到就返回空指针，表示错误
+}
+
+template<typename T>
+Node<T>* LinkedList<T>::find(T const& e, int n, Node<T>* p) const//p的n个前驱
+{
+	while (n > 0)
+	{
+		if (e == (p = p->prev))
+			return p;
+	}
+	return nullptr;
+}
+
+template<typename T>
+inline Node<T>* LinkedList<T>::insertAsFirst(T const& e)
+{
+	//新建节点
+	Node<T>* p = new LinkedList(e, header, first);
+	//建立链接
+	header->next = p;
+	first->prev = p;
+	first = p;
+	return p;
+}
+
+template<typename T>
+inline Node<T>* LinkedList<T>::insertAsLast(T const& e)
+{
+	Node<T>* p = new LinkedList(e, last, trailer);
+	last->next = p;
+	trailer->prev = p;
+	last = p;
+	return p;
+}
+
+template<typename T>
+Node<T>* LinkedList<T>::insertBefore(Node<T>* p, T const& e)//前插算法
+{
+	//首先生成一个节点,新节点前驱为this的prev，后驱变为要插入的节点this
+	Node<T>* q = new LinkedList(e, prev, this);
+	//建立链接
+	prev->next = q;//
+	prev = q;//此时q节点已经变成this的新前驱
+	return q;//返回新节点
+}
+
+template<typename T>
+inline Node<T>* LinkedList<T>::insertAfter(Node<T>* p, T const& e)//在节点后插入
+{
+	//生成新节点
+	Node<T>* q = new LinkedList(e, this, next);
+	//建立链接
+	next->prev = q;
+	next = q;
+	return q;
+}
